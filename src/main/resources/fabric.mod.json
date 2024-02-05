@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "coordmanager",
+	"version": "${version}",
+	"name": "CoordManager",
+	"description": "A plugin to manage locations",
+	"authors": [
+		"Panos Nikolakakis"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.panosnikolakakis.coordmanager.CoordManager"
+		],
+		"client": [
+			"com.panosnikolakakis.coordmanager.CoordManagerClient"
+
+		],
+		"fabric-datagen": [
+			"com.panosnikolakakis.coordmanager.CoordManagerDataGenerator"
+		]
+	},
+	"mixins": [
+		"coordmanager.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.6",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
