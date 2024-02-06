@@ -30,7 +30,7 @@ public class SaveLocationCommand {
 
                                 Text message = Text.literal("Location '")
                                         .append(Text.literal(locationName).setStyle(Style.EMPTY.withFormatting(Formatting.GOLD)))
-                                        .append("' saved at " + getDimensionName(dimensionId) + " coordinates: X " + playerPos.getX() + ", Y " + playerPos.getY() + ", Z " + playerPos.getZ());
+                                        .append("' saved at " + getDimensionName(dimensionId) + " coordinates: " + playerPos.getX() + ", " + playerPos.getY() + ", " + playerPos.getZ());
 
                                 context.getSource().sendFeedback(() -> message, false);
                                 return 1;

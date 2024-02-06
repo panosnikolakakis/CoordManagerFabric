@@ -40,7 +40,7 @@ public class FindLocationCommand {
 
                                                 Text message = Text.literal("Location '")
                                                         .append(Text.literal(locationName).setStyle(Style.EMPTY.withFormatting(Formatting.GOLD)))
-                                                        .append("' in " + dimension + " coordinates: X " + x + ", Y " + y + ", Z " + z);
+                                                        .append("' details: " + dimension + ": " + x + ", " + y + ", " + z);
 
                                                 context.getSource().sendFeedback(() -> message, false);
                                                 return 1;
