@@ -15,7 +15,7 @@ public class CoordManager implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Hello Fabric world!");
+		LOGGER.info("CoordManager loaded.");
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			SaveLocationCommand.register(dispatcher);
