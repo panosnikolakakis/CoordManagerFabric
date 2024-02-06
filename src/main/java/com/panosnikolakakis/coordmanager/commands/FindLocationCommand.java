@@ -26,13 +26,13 @@ public class FindLocationCommand {
                                 .suggests(getLocationSuggestions())
                                 .executes(context -> {
                                     String locationName = StringArgumentType.getString(context, "LocationName");
-
                                     List<String> lines = getLocationLines(locationName);
 
                                     if (!lines.isEmpty()) {
-                                        String[] parts = lines.get(0).split(":");
-                                        if (parts.length >= 2) {
-                                            String[] coordinates = parts[1].trim().split(" ");
+                                        String[] parts = lines.get(0).split(":", 3);
+                                        if (parts.length == 3) {
+                                            String dimension = parts[1].trim();
+                                            String[] coordinates = parts[2].trim().split(" ");
                                             if (coordinates.length == 3) {
                                                 int x = Integer.parseInt(coordinates[0]);
                                                 int y = Integer.parseInt(coordinates[1]);
@@ -40,7 +40,7 @@ public class FindLocationCommand {
 
                                                 Text message = Text.literal("Location '")
                                                         .append(Text.literal(locationName).setStyle(Style.EMPTY.withFormatting(Formatting.GOLD)))
-                                                        .append("' coordinates: X " + x + ", Y " + y + ", Z " + z);
+                                                        .append("' in " + dimension + " coordinates: X " + x + ", Y " + y + ", Z " + z);
 
                                                 context.getSource().sendFeedback(() -> message, false);
                                                 return 1;
@@ -56,7 +56,6 @@ public class FindLocationCommand {
                                     return 0;
                                 })
                         )
-
         );
     }
 
@@ -75,7 +74,7 @@ public class FindLocationCommand {
             String filePath = "locations.txt";
             List<String> lines = Files.readAllLines(Paths.get(filePath));
             for (String line : lines) {
-                String[] parts = line.split(":");
+                String[] parts = line.split(":", 2);
                 if (parts.length > 0) {
                     names.add(parts[0].trim());
                 }
@@ -94,22 +93,18 @@ public class FindLocationCommand {
             List<String> foundLines = new ArrayList<>();
 
             for (String line : lines) {
-                // Splitting the line to get the location name and coordinates
-                String[] parts = line.split(":", 2);
+                // Remove formatting codes from the line
+                String cleanedLine = Formatting.strip(Text.of(line).getString());
 
-                if (parts.length >= 2) {
+                // Splitting the cleaned line to get the location name and coordinates
+                String[] parts = cleanedLine.split(":", 3);
+
+                if (parts.length == 3) {
                     String foundLocationName = parts[0].trim();
 
                     // Compare the trimmed location names (case-insensitive)
                     if (foundLocationName.equalsIgnoreCase(locationName.trim())) {
-                        // Extract coordinates
-                        String coordinatesString = parts[1].trim();
-                        String[] coordinates = coordinatesString.split(" ");
-
-                        // Check if the coordinates are in the expected format
-                        if (coordinates.length == 3) {
-                            foundLines.add(line);
-                        }
+                        foundLines.add(line);
                     }
                 }
             }
@@ -119,10 +114,5 @@ public class FindLocationCommand {
             e.printStackTrace();
         }
         return Collections.emptyList();
-    }
-
-
-    private static String removeFormattingCodes(String input) {
-        return Formatting.strip(Text.of(input).getString());
     }
 }
