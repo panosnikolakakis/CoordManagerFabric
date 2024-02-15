@@ -22,7 +22,6 @@ public class FindLocationCommand {
         dispatcher.register(
                 CommandManager.literal("locationfind")
                         .then(CommandManager.argument("LocationName", StringArgumentType.greedyString())
-                                .requires(source -> source.hasPermissionLevel(2))
                                 .suggests(getLocationSuggestions())
                                 .executes(context -> {
                                     String locationName = StringArgumentType.getString(context, "LocationName");
